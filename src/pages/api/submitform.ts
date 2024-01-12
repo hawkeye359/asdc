@@ -10,6 +10,10 @@ import {
   MOTHER_NAME,
   PHONENUMBER,
 } from "@/app/form/validations";
+import {
+  createOrderInDatabase,
+  generateUniqueId,
+} from "@/lib/services/database";
 export interface SubmitFormResponseType {
   key: string;
   orderId: string;
@@ -17,6 +21,7 @@ export interface SubmitFormResponseType {
   name: string;
   email: string;
   contact: string;
+  internalId: string;
 }
 const username = process.env.RAZORPAY_USERID || "";
 interface submitFormDataType {
@@ -26,8 +31,8 @@ interface submitFormDataType {
   [EMAIL]: string;
   [FATHER_NAME]: string;
   [MOTHER_NAME]: string;
-  [DATE_OF_BIRTH]: string;
-  [COURSE]: string;
+  [DATE_OF_BIRTH]: Date;
+  [COURSE]: number;
 }
 let id = 0;
 
@@ -38,8 +43,32 @@ export default async function handler(
   console.log(req.body);
   let error = false;
   const body: submitFormDataType = req.body;
-  const orderCreationResponse = await createOrder(162800, String(id++));
+  const internalId = await generateUniqueId();
+  const orderCreationResponse = await createOrder(162800, internalId);
   if (orderCreationResponse.success) {
+    try {
+      const order = await createOrderInDatabase(
+        {
+          phoneNumber: body[PHONENUMBER],
+          firstName: body[FIRST_NAME],
+          lastName: body[LAST_NAME],
+          dateOfBirth: body[DATE_OF_BIRTH],
+          fatherName: body[FIRST_NAME],
+          motherName: body[LAST_NAME],
+          course: body[COURSE],
+          email: body[EMAIL],
+          orderId: orderCreationResponse.data.id,
+        },
+        internalId
+      );
+    } catch (e) {
+      res.status(500).json({
+        success: false,
+        code: 500,
+        data: "order creation failed",
+      });
+      return;
+    }
     res.status(200).json({
       success: true,
       code: 200,
@@ -50,6 +79,7 @@ export default async function handler(
         name: body[FIRST_NAME] + " " + body[LAST_NAME],
         email: body[EMAIL],
         contact: body[PHONENUMBER],
+        internalId: internalId,
       },
     });
   } else {

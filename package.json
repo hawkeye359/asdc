@@ -15,6 +15,7 @@
     "@mui/material": "^5.15.3",
     "@mui/material-nextjs": "^5.15.3",
     "@mui/x-date-pickers": "^6.18.7",
+    "@prisma/client": "^5.8.0",
     "@react-pdf/renderer": "^3.1.14",
     "axios": "^1.6.5",
     "css-reset-and-normalize": "^2.3.6",

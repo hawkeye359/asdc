@@ -38,24 +38,34 @@ export default function Home() {
           alignItems: "center",
         }}
       >
-        <Link
-          href="#"
-          style={{
-            display: "block",
-            height: "200px",
-            width: "200px",
-            background: "red",
-          }}
-        ></Link>
-        <Link
-          href="/form"
-          style={{
-            display: "block",
-            height: "200px",
-            width: "200px",
-            background: "yellow",
-          }}
-        ></Link>
+        <Link href="#" style={{}}>
+          <Image
+            src="/cyber_pathshala_logo.png"
+            alt="asdc logo"
+            height={227}
+            width={402}
+            style={{
+              display: "block",
+              height: "200px",
+              width: "auto",
+              background: "red",
+            }}
+          ></Image>
+        </Link>
+        <Link href="/form" style={{}}>
+          <Image
+            src="/asdc_logo.png"
+            alt="asdc logo"
+            height={227}
+            width={402}
+            style={{
+              display: "block",
+              height: "200px",
+              width: "auto",
+              background: "red",
+            }}
+          ></Image>
+        </Link>
       </Box>
     </Box>
   );

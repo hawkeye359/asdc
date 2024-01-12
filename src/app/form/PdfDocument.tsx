@@ -11,7 +11,12 @@ import ReactPDF, {
   Font,
 } from "@react-pdf/renderer";
 // Create styles
-console.log("something");
+function formatDate(date: Date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
 const styles = StyleSheet.create({
   document: {
     fontFamily: "Times-Roman",
@@ -117,7 +122,19 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-export default function pdfDocument() {
+export default function pdfDocument(props: {
+  coursename: string;
+  id: string;
+  name: string;
+  dob: Date;
+  fatherName: string;
+  motherName: string;
+  phoneNumber: string;
+  email: string;
+  paymentMode: string;
+  paymentId: string;
+  amount: number;
+}) {
   return (
     <Box
       sx={{
@@ -128,12 +145,36 @@ export default function pdfDocument() {
       }}
     >
       {/* <PDFDownloadLink document={<MyDocument />}>Download pdf</PDFDownloadLink> */}
-      <MyDocument />
+      <MyDocument {...props} />
     </Box>
   );
 }
 console.log(typeof window !== "undefined" ? "defined" : "not defined");
-function MyDocument() {
+
+function MyDocument({
+  coursename,
+  id,
+  name,
+  dob,
+  fatherName,
+  motherName,
+  phoneNumber,
+  paymentMode,
+  paymentId,
+  amount,
+}: {
+  coursename: string;
+  id: string;
+  name: string;
+  dob: Date;
+  fatherName: string;
+  motherName: string;
+  phoneNumber: string;
+  email: string;
+  paymentMode: string;
+  paymentId: string;
+  amount: number;
+}) {
   return typeof window !== "undefined" ? (
     <PDFViewer
       style={{ border: 0, position: "absolute", width: "100%", height: "100%" }}
@@ -143,47 +184,47 @@ function MyDocument() {
           <View style={styles.pageInner}>
             <View style={styles.heading}>
               <Text style={styles.headingText}>
-                National Skill Development Corporation, Examination 2024
+                Nationall Skill Development Corporation
               </Text>
             </View>
             <View style={styles.section1}>
               <View style={styles.subSection}>
                 <Text style={styles.boldText}>S.R No:- </Text>
-                <Text>ZHA240100001</Text>
+                <Text>{id}</Text>
               </View>
             </View>
             <View style={styles.section1}>
               <View style={styles.subSection}>
                 <Text style={styles.boldText}>Course: </Text>
-                <Text>Communication skills & Personality Development</Text>
+                <Text>{coursename}</Text>
               </View>
             </View>
             <View style={styles.section1}>
               <View style={styles.subSectionWithBorderRight}>
                 <Text style={styles.boldText}>Name: </Text>
-                <Text>Mohd Huzaifa</Text>
+                <Text>{name}</Text>
               </View>
               <View style={styles.subSection}>
                 <Text style={styles.boldText}>DOB: </Text>
-                <Text>04-07-1999</Text>
-              </View>
-            </View>
-            <View style={styles.section1}>
-              <View style={styles.subSection}>
-                <Text style={styles.boldText}>Mother&apos;s Name: </Text>
-                <Text>Tasneem Fatima</Text>
+                <Text>{formatDate(dob)}</Text>
               </View>
             </View>
             <View style={styles.section1}>
               <View style={styles.subSection}>
                 <Text style={styles.boldText}>Father&apos;s Name: </Text>
-                <Text>Mumtaz Ahmad</Text>
+                <Text>{fatherName}</Text>
+              </View>
+            </View>
+            <View style={styles.section1}>
+              <View style={styles.subSection}>
+                <Text style={styles.boldText}>Mother&apos;s Name: </Text>
+                <Text>{motherName}</Text>
               </View>
             </View>
             <View style={styles.section1}>
               <View style={styles.subSection}>
                 <Text style={styles.boldText}>Phone Number: </Text>
-                <Text>+91 88532 86504</Text>
+                <Text>{phoneNumber}</Text>
               </View>
             </View>
             <View style={styles.section1}>
@@ -202,49 +243,49 @@ function MyDocument() {
                 <View style={styles.feeSection}>
                   <View style={styles.feeSubSection}>
                     <Text style={styles.boldText}>S.R No:- </Text>
-                    <Text>ZHA240100001</Text>
+                    <Text>{id}</Text>
                   </View>
                 </View>
                 <View style={styles.feeSection}>
                   <View style={styles.feeSubSection}>
                     <Text style={styles.boldText}>Course: </Text>
-                    <Text>Communication skills & Personality Development</Text>
+                    <Text>{coursename}</Text>
                   </View>
                 </View>
                 <View style={styles.feeSection}>
                   <View style={styles.feeSubSection}>
                     <Text style={styles.boldText}>Payment Mode: </Text>
-                    <Text>ONINE/OFFLINE</Text>
+                    <Text>{paymentMode}</Text>
                   </View>
                 </View>
                 <View style={styles.feeSection}>
                   <View style={styles.feeSubSection}>
                     <Text style={styles.boldText}>Payee Name: </Text>
-                    <Text>Mohd Huzaifa</Text>
+                    <Text>{name}</Text>
                   </View>
                   <View style={styles.feeSubSection}>
                     <Text style={styles.boldText}>Amount (In Rupees): </Text>
-                    <Text>24000</Text>
+                    <Text>{amount}</Text>
                   </View>
                 </View>
 
                 <View style={styles.feeSection}>
                   <View style={styles.feeSubSection}>
                     <Text style={styles.boldText}>Payment id: </Text>
-                    <Text>pay_NN1iwedJljB9OH</Text>
+                    <Text>{paymentId}</Text>
                   </View>
                 </View>
                 <View style={styles.feeSection}>
                   <View style={styles.feeSubSection}>
                     <Text style={styles.boldText}>Status: </Text>
-                    <Text>PAID</Text>
+                    <Text>{paymentMode === "ONLINE" ? "PAID" : ""}</Text>
                   </View>
                 </View>
               </View>
               <View style={styles.dateAndSignContainer}>
                 <View style={styles.dateContainer}>
                   <Text style={styles.boldText}>Date: </Text>
-                  <Text>24-02-2001</Text>
+                  <Text>{formatDate(new Date())}</Text>
                 </View>
               </View>
             </View>

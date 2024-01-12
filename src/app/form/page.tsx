@@ -12,11 +12,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import PdfDocument from "./PdfDocument";
 import React, { useState } from "react";
 import styles from "./page.module.css";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MuiTelInput } from "mui-tel-input";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import {
   COURSE,
   DATE_OF_BIRTH,
@@ -30,23 +31,36 @@ import {
   formSchema,
   initialValues,
 } from "./validations";
-import courseArray from "./courseList";
+import courseArray, { findCourseFromArray } from "./courseList";
 import { submitForm } from "@/API/services/submitForm";
-import { createRazorpayConfig } from "./createRazorpayConfig";
+import {
+  RazorpaySuccessResponse,
+  createRazorpayConfig,
+} from "./createRazorpayConfig";
 function Page() {
-  const [phoneNumber, setPhoneNumber] = useState<string>();
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [fathersName, setFathersName] = useState<string>("");
-  const [mothersName, setMothersName] = useState<string>("");
-  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
+  const [paymentDone, setPaymentDone] = useState<boolean>(false);
+  const [paymetnModIsOnline, setPaymentModeIsOnline] = useState<boolean>(true);
+  const [paymentId, setPaymentId] = useState<string>("");
+  const [internalId, setInternalId] = useState<string>("");
+  const paymentHandler = function (response: RazorpaySuccessResponse) {
+    console.log("razorpayResponse", response);
+    setPaymentId(response.razorpay_payment_id);
+    setPaymentDone(true);
+    alert(response.razorpay_payment_id);
+    alert(response.razorpay_order_id);
+    alert(response.razorpay_signature);
+  };
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: formSchema,
     onSubmit: async (values, actions) => {
       const res = await submitForm(values);
+      if (!paymetnModIsOnline) {
+        setPaymentDone(true);
+        return;
+      }
       if (res.success) {
+        setInternalId(res.data.internalId);
         const orderRes = res.data;
         const razorpayConfig = createRazorpayConfig(
           orderRes.key,
@@ -54,7 +68,8 @@ function Page() {
           orderRes.orderId,
           orderRes.name,
           orderRes.email,
-          orderRes.contact
+          orderRes.contact,
+          paymentHandler
         );
         let rzp1 = new Razorpay(razorpayConfig);
         rzp1.open();
@@ -74,11 +89,11 @@ function Page() {
     }
   }
 
-  return (
+  return !paymentDone ? (
     <Box
       sx={{
         maxWidth: "40rem",
-        margin: "0 auto",
+        margin: "10rem auto",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -90,7 +105,7 @@ function Page() {
         component="h2"
         sx={{ margin: "0 auto", color: "#36454F" }}
       >
-        Fill you details
+        Fill your details
       </Typography>
       <form className={styles.details_form} onSubmit={formik.handleSubmit}>
         <FormLabel>Course</FormLabel>
@@ -224,10 +239,35 @@ function Page() {
           variant="contained"
           type="submit"
         >
-          SUBMIT YOUR FEE
+          SUBMIT YOUR FEE ONLINE
+        </Button>
+        <Button
+          sx={{ marginTop: "1rem", height: "3rem" }}
+          variant="contained"
+          type="button"
+          onClick={() => {
+            setPaymentModeIsOnline(false);
+            formik.handleSubmit();
+          }}
+        >
+          SUBMIT YOUR FEE OFFLINE
         </Button>
       </form>
     </Box>
+  ) : (
+    <PdfDocument
+      name={formik.values[FIRST_NAME] + " " + formik.values[LAST_NAME]}
+      dob={formik.values[DATE_OF_BIRTH]}
+      fatherName={formik.values[FATHER_NAME]}
+      motherName={formik.values[MOTHER_NAME]}
+      phoneNumber={formik.values[PHONENUMBER]}
+      email={formik.values[EMAIL]}
+      coursename={findCourseFromArray(formik.values[COURSE])}
+      paymentMode={paymentId ? "ONLINE" : "OFFLINE"}
+      amount={1628}
+      paymentId={paymentId}
+      id={internalId}
+    />
   );
 }
 
