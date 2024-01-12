@@ -157,6 +157,7 @@ function MyDocument({
   name,
   dob,
   fatherName,
+  email,
   motherName,
   phoneNumber,
   paymentMode,
@@ -184,7 +185,7 @@ function MyDocument({
           <View style={styles.pageInner}>
             <View style={styles.heading}>
               <Text style={styles.headingText}>
-                Nationall Skill Development Corporation
+                National Skill Development Corporation, Examination January 2024
               </Text>
             </View>
             <View style={styles.section1}>
@@ -230,7 +231,7 @@ function MyDocument({
             <View style={styles.section1}>
               <View style={styles.subSection}>
                 <Text style={styles.boldText}>Email: </Text>
-                <Text>mohdhuzaifa359@gmail.com</Text>
+                <Text>{email}</Text>
               </View>
             </View>
             <View style={styles.feeSectionContainer}>

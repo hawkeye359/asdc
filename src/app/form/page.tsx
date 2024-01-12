@@ -197,6 +197,7 @@ function Page() {
         </FormLabel>
         <DatePicker
           value={formik.getFieldProps(DATE_OF_BIRTH)}
+          format="dd-MM-yyyy"
           label="Date of birth"
           sx={{ marginTop: "0.5rem" }}
           onChange={(e) => {
