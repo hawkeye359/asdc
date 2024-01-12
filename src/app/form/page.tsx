@@ -238,6 +238,7 @@ function Page() {
           sx={{ marginTop: "2rem", height: "3rem" }}
           variant="contained"
           type="submit"
+          disabled
         >
           SUBMIT YOUR FEE ONLINE
         </Button>
@@ -257,7 +258,9 @@ function Page() {
   ) : (
     <PdfDocument
       name={formik.values[FIRST_NAME] + " " + formik.values[LAST_NAME]}
-      dob={formik.values[DATE_OF_BIRTH]}
+      dob={
+        formik.values[DATE_OF_BIRTH] ? formik.values[DATE_OF_BIRTH] : new Date()
+      }
       fatherName={formik.values[FATHER_NAME]}
       motherName={formik.values[MOTHER_NAME]}
       phoneNumber={formik.values[PHONENUMBER]}
