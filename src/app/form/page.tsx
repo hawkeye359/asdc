@@ -7,6 +7,7 @@ import {
   FormHelperText,
   FormLabel,
   InputLabel,
+  Link,
   MenuItem,
   Select,
   TextField,
@@ -233,9 +234,15 @@ function Page() {
           error={isError(EMAIL)}
           helperText={getErrorText(EMAIL)}
           {...formik.getFieldProps(EMAIL)}
+          style={{
+            marginBottom: "1rem",
+          }}
         ></TextField>
+        <Link href="https://www.termsfeed.com/live/6d95aaee-db40-4c99-85a9-fa45375eebd8">
+          Refund Policy
+        </Link>
         <Button
-          sx={{ marginTop: "2rem", height: "3rem" }}
+          sx={{ marginTop: "1rem", height: "3rem" }}
           variant="contained"
           type="submit"
           disabled

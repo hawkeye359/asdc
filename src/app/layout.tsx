@@ -4,6 +4,7 @@ import "./globals.css";
 import "css-reset-and-normalize";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import Script from "next/script";
+import Footer from "./Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+        <AppRouterCacheProvider>
+          <Footer>{children}</Footer>
+        </AppRouterCacheProvider>
       </body>
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
     </html>
