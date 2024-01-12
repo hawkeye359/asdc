@@ -132,9 +132,9 @@ export default function pdfDocument() {
     </Box>
   );
 }
-
+console.log(typeof window !== "undefined" ? "defined" : "not defined");
 function MyDocument() {
-  return (
+  return typeof window !== "undefined" ? (
     <PDFViewer
       style={{ border: 0, position: "absolute", width: "100%", height: "100%" }}
     >
@@ -252,5 +252,7 @@ function MyDocument() {
         </Page>
       </Document>
     </PDFViewer>
+  ) : (
+    <></>
   );
 }

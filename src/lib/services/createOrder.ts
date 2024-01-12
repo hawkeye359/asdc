@@ -1,6 +1,6 @@
-import { backendUrls } from "@/pages/backendUrls";
+import { backendUrls } from "@/lib/backendUrls";
 import { BackEndApi } from "../BackEndApi";
-import { OrderCreationResponse } from "@/pages/Types/API/Razorpay/OrderCreationResponse";
+import { OrderCreationResponse } from "@/lib/Types/API/Razorpay/OrderCreationResponse";
 const username = process.env.RAZORPAY_USERID;
 const password = process.env.RAZORPAY_PASSWORD;
 const base64Credentials = btoa(`${username}:${password}`);

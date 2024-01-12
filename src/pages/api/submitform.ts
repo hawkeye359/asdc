@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { createOrder } from "./services/createOrder";
+import { createOrder } from "../../lib/services/createOrder";
 import {
   COURSE,
   DATE_OF_BIRTH,
