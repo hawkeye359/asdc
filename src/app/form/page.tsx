@@ -61,12 +61,12 @@ function Page() {
     initialValues: initialValues,
     validationSchema: formSchema,
     onSubmit: async (values, actions) => {
+      setSubmittingOnline(true);
       const res = await submitForm(values);
       if (!paymetnModeIsOnline) {
         setPaymentDone(true);
         return;
       }
-      setSubmittingOnline(true);
       if (res.success) {
         setInternalId(res.data.internalId);
         const orderRes = res.data;
@@ -80,7 +80,11 @@ function Page() {
           paymentHandler
         );
         let rzp1 = new Razorpay(razorpayConfig);
-        console.log(rzp1);
+        console.log("razorpay object", rzp1);
+        rzp1.postInit = () => {
+          console.log("razorpay loaded");
+          setSubmittingOnline(false);
+        };
         rzp1.open();
       }
       actions.setSubmitting(false);
