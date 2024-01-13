@@ -177,124 +177,122 @@ function MyDocument({
   amount: number;
 }) {
   return typeof window !== "undefined" ? (
-    <PDFViewer
-      style={{ border: 0, position: "absolute", width: "100%", height: "100%" }}
-    >
-      <Document style={styles.document}>
-        <Page size="A4" style={styles.page}>
-          <View style={styles.pageInner}>
-            <View style={styles.heading}>
-              <Text style={styles.headingText}>
-                National Skill Development Corporation, Examination January 2024
-              </Text>
+    // <PDFViewer
+    //   style={{ border: 0, position: "absolute", width: "100%", height: "100%" }}
+    // >
+    <Document style={styles.document}>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.pageInner}>
+          <View style={styles.heading}>
+            <Text style={styles.headingText}>
+              National Skill Development Corporation, Examination January 2024
+            </Text>
+          </View>
+          <View style={styles.section1}>
+            <View style={styles.subSection}>
+              <Text style={styles.boldText}>S.R No:- </Text>
+              <Text>{id}</Text>
             </View>
-            <View style={styles.section1}>
-              <View style={styles.subSection}>
-                <Text style={styles.boldText}>S.R No:- </Text>
-                <Text>{id}</Text>
-              </View>
+          </View>
+          <View style={styles.section1}>
+            <View style={styles.subSection}>
+              <Text style={styles.boldText}>Course: </Text>
+              <Text>{coursename}</Text>
             </View>
-            <View style={styles.section1}>
-              <View style={styles.subSection}>
-                <Text style={styles.boldText}>Course: </Text>
-                <Text>{coursename}</Text>
-              </View>
+          </View>
+          <View style={styles.section1}>
+            <View style={styles.subSectionWithBorderRight}>
+              <Text style={styles.boldText}>Name: </Text>
+              <Text>{name}</Text>
             </View>
-            <View style={styles.section1}>
-              <View style={styles.subSectionWithBorderRight}>
-                <Text style={styles.boldText}>Name: </Text>
-                <Text>{name}</Text>
-              </View>
-              <View style={styles.subSection}>
-                <Text style={styles.boldText}>DOB: </Text>
-                <Text>{formatDate(dob)}</Text>
-              </View>
+            <View style={styles.subSection}>
+              <Text style={styles.boldText}>DOB: </Text>
+              <Text>{formatDate(dob)}</Text>
             </View>
-            <View style={styles.section1}>
-              <View style={styles.subSection}>
-                <Text style={styles.boldText}>Father&apos;s Name: </Text>
-                <Text>{fatherName}</Text>
-              </View>
+          </View>
+          <View style={styles.section1}>
+            <View style={styles.subSection}>
+              <Text style={styles.boldText}>Father&apos;s Name: </Text>
+              <Text>{fatherName}</Text>
             </View>
-            <View style={styles.section1}>
-              <View style={styles.subSection}>
-                <Text style={styles.boldText}>Mother&apos;s Name: </Text>
-                <Text>{motherName}</Text>
-              </View>
+          </View>
+          <View style={styles.section1}>
+            <View style={styles.subSection}>
+              <Text style={styles.boldText}>Mother&apos;s Name: </Text>
+              <Text>{motherName}</Text>
             </View>
-            <View style={styles.section1}>
-              <View style={styles.subSection}>
-                <Text style={styles.boldText}>Phone Number: </Text>
-                <Text>{phoneNumber}</Text>
-              </View>
+          </View>
+          <View style={styles.section1}>
+            <View style={styles.subSection}>
+              <Text style={styles.boldText}>Phone Number: </Text>
+              <Text>{phoneNumber}</Text>
             </View>
-            <View style={styles.section1}>
-              <View style={styles.subSection}>
-                <Text style={styles.boldText}>Email: </Text>
-                <Text>{email}</Text>
-              </View>
+          </View>
+          <View style={styles.section1}>
+            <View style={styles.subSection}>
+              <Text style={styles.boldText}>Email: </Text>
+              <Text>{email}</Text>
             </View>
-            <View style={styles.feeSectionContainer}>
-              <View style={styles.feeHeading}>
-                <Text style={styles.feeHeadingText}>
-                  Examination Fee Receipt
-                </Text>
-              </View>
-              <View style={styles.feeDetailsContainer}>
-                <View style={styles.feeSection}>
-                  <View style={styles.feeSubSection}>
-                    <Text style={styles.boldText}>S.R No:- </Text>
-                    <Text>{id}</Text>
-                  </View>
+          </View>
+          <View style={styles.feeSectionContainer}>
+            <View style={styles.feeHeading}>
+              <Text style={styles.feeHeadingText}>Examination Fee Receipt</Text>
+            </View>
+            <View style={styles.feeDetailsContainer}>
+              <View style={styles.feeSection}>
+                <View style={styles.feeSubSection}>
+                  <Text style={styles.boldText}>S.R No:- </Text>
+                  <Text>{id}</Text>
                 </View>
-                <View style={styles.feeSection}>
-                  <View style={styles.feeSubSection}>
-                    <Text style={styles.boldText}>Course: </Text>
-                    <Text>{coursename}</Text>
-                  </View>
+              </View>
+              <View style={styles.feeSection}>
+                <View style={styles.feeSubSection}>
+                  <Text style={styles.boldText}>Course: </Text>
+                  <Text>{coursename}</Text>
                 </View>
-                <View style={styles.feeSection}>
-                  <View style={styles.feeSubSection}>
-                    <Text style={styles.boldText}>Payment Mode: </Text>
-                    <Text>{paymentMode}</Text>
-                  </View>
+              </View>
+              <View style={styles.feeSection}>
+                <View style={styles.feeSubSection}>
+                  <Text style={styles.boldText}>Payment Mode: </Text>
+                  <Text>{paymentMode}</Text>
                 </View>
-                <View style={styles.feeSection}>
-                  <View style={styles.feeSubSection}>
-                    <Text style={styles.boldText}>Payee Name: </Text>
-                    <Text>{name}</Text>
-                  </View>
-                  <View style={styles.feeSubSection}>
-                    <Text style={styles.boldText}>Amount (In Rupees): </Text>
-                    <Text>{amount}</Text>
-                  </View>
+              </View>
+              <View style={styles.feeSection}>
+                <View style={styles.feeSubSection}>
+                  <Text style={styles.boldText}>Payee Name: </Text>
+                  <Text>{name}</Text>
                 </View>
+                <View style={styles.feeSubSection}>
+                  <Text style={styles.boldText}>Amount (In Rupees): </Text>
+                  <Text>{amount}</Text>
+                </View>
+              </View>
 
-                <View style={styles.feeSection}>
-                  <View style={styles.feeSubSection}>
-                    <Text style={styles.boldText}>Payment id: </Text>
-                    <Text>{paymentId}</Text>
-                  </View>
-                </View>
-                <View style={styles.feeSection}>
-                  <View style={styles.feeSubSection}>
-                    <Text style={styles.boldText}>Status: </Text>
-                    <Text>{paymentMode === "ONLINE" ? "PAID" : ""}</Text>
-                  </View>
+              <View style={styles.feeSection}>
+                <View style={styles.feeSubSection}>
+                  <Text style={styles.boldText}>Payment id: </Text>
+                  <Text>{paymentId}</Text>
                 </View>
               </View>
-              <View style={styles.dateAndSignContainer}>
-                <View style={styles.dateContainer}>
-                  <Text style={styles.boldText}>Date: </Text>
-                  <Text>{formatDate(new Date())}</Text>
+              <View style={styles.feeSection}>
+                <View style={styles.feeSubSection}>
+                  <Text style={styles.boldText}>Status: </Text>
+                  <Text>{paymentMode === "ONLINE" ? "PAID" : ""}</Text>
                 </View>
+              </View>
+            </View>
+            <View style={styles.dateAndSignContainer}>
+              <View style={styles.dateContainer}>
+                <Text style={styles.boldText}>Date: </Text>
+                <Text>{formatDate(new Date())}</Text>
               </View>
             </View>
           </View>
-        </Page>
-      </Document>
-    </PDFViewer>
+        </View>
+      </Page>
+    </Document>
   ) : (
+    // </PDFViewer>
     <></>
   );
 }

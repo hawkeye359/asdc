@@ -42,12 +42,12 @@ export const formSchema = object({
 });
 
 export const initialValues = {
-  [PHONENUMBER]: "",
-  [FIRST_NAME]: "",
-  [LAST_NAME]: "",
+  [PHONENUMBER]: "+91 88532 86504",
+  [FIRST_NAME]: "Mohd",
+  [LAST_NAME]: "Huzaifa",
   [DATE_OF_BIRTH]: undefined,
-  [FATHER_NAME]: "",
-  [MOTHER_NAME]: "",
+  [FATHER_NAME]: "Mumtaz Ahmad",
+  [MOTHER_NAME]: "Tasneem Fatima",
   [COURSE]: 0,
-  [EMAIL]: "",
+  [EMAIL]: "mohdhuzaifa359@gmail.com",
 };

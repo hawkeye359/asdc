@@ -1,20 +1,21 @@
-import { Box } from "@mui/material";
+"use client";
+import { Box, useMediaQuery } from "@mui/material";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
+  const matches = useMediaQuery("(max-width:600px)");
   return (
     <Box
       sx={{
-        width: "100vw",
+        width: "100%",
       }}
     >
       <Box
         sx={{
-          width: "100vw",
-          height: "100vh",
-          overflow: "hidden",
+          width: "100%",
+          height: "auto",
         }}
       >
         <Image
@@ -31,9 +32,9 @@ export default function Home() {
       <Box
         sx={{
           height: "100vh",
-          width: "100vw",
           background: "#fff",
           display: "flex",
+          flexDirection: matches ? "column" : "row",
           justifyContent: "space-evenly",
           alignItems: "center",
         }}

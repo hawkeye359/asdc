@@ -2,6 +2,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormGroup,
   FormHelperText,
@@ -12,6 +13,7 @@ import {
   Select,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import PdfDocument from "./PdfDocument";
 import React, { useState } from "react";
@@ -40,13 +42,17 @@ import {
 } from "./createRazorpayConfig";
 function Page() {
   const [paymentDone, setPaymentDone] = useState<boolean>(false);
-  const [paymetnModIsOnline, setPaymentModeIsOnline] = useState<boolean>(true);
+  const [paymetnModeIsOnline, setPaymentModeIsOnline] = useState<boolean>(true);
   const [paymentId, setPaymentId] = useState<string>("");
   const [internalId, setInternalId] = useState<string>("");
+  const [submittingOnline, setSubmittingOnline] = useState<boolean>(false);
+  const [submittingOffline, setSubmittingOffline] = useState<boolean>(false);
+  const matches = useMediaQuery("(max-width:600px)");
   const paymentHandler = function (response: RazorpaySuccessResponse) {
     console.log("razorpayResponse", response);
     setPaymentId(response.razorpay_payment_id);
     setPaymentDone(true);
+    setSubmittingOnline(false);
     alert(response.razorpay_payment_id);
     alert(response.razorpay_order_id);
     alert(response.razorpay_signature);
@@ -56,10 +62,11 @@ function Page() {
     validationSchema: formSchema,
     onSubmit: async (values, actions) => {
       const res = await submitForm(values);
-      if (!paymetnModIsOnline) {
+      if (!paymetnModeIsOnline) {
         setPaymentDone(true);
         return;
       }
+      setSubmittingOnline(true);
       if (res.success) {
         setInternalId(res.data.internalId);
         const orderRes = res.data;
@@ -73,6 +80,7 @@ function Page() {
           paymentHandler
         );
         let rzp1 = new Razorpay(razorpayConfig);
+        console.log(rzp1);
         rzp1.open();
       }
       actions.setSubmitting(false);
@@ -93,8 +101,9 @@ function Page() {
   return !paymentDone ? (
     <Box
       sx={{
-        maxWidth: "40rem",
-        margin: "10rem auto",
+        width: "30rem",
+        maxWidth: "90%",
+        margin: matches ? "5rem auto" : "10rem auto",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -102,9 +111,13 @@ function Page() {
       }}
     >
       <Typography
-        variant="h3"
+        variant={matches ? "h5" : "h3"}
         component="h2"
-        sx={{ margin: "0 auto", color: "#36454F" }}
+        sx={{
+          margin: "0 auto",
+          color: "#36454F",
+          fontWeight: matches ? 700 : 500,
+        }}
       >
         Fill your details
       </Typography>
@@ -134,7 +147,14 @@ function Page() {
             <MenuItem value={30}>Thirty</MenuItem> */}
           </Select>
         </FormControl>
-        <Box sx={{ display: "flex", gap: "2rem", marginTop: "1rem" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: matches ? "column" : "row",
+            gap: matches ? "1rem" : "2rem",
+            marginTop: "1rem",
+          }}
+        >
           <Box sx={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
             <FormLabel>First Name</FormLabel>
             <TextField
@@ -239,17 +259,28 @@ function Page() {
             marginBottom: "1rem",
           }}
         ></TextField>
-        <Link href="https://www.termsfeed.com/live/6d95aaee-db40-4c99-85a9-fa45375eebd8">
+        <Link
+          target="_blank"
+          href="https://www.termsfeed.com/live/6d95aaee-db40-4c99-85a9-fa45375eebd8"
+        >
           Refund Policy
         </Link>
         <Button
-          sx={{ marginTop: "1rem", height: "3rem" }}
+          sx={{ marginTop: "1rem", height: "3rem", position: "relative" }}
           variant="contained"
           type="submit"
-          disabled
+          disabled={submittingOffline || submittingOnline}
         >
+          {submittingOnline && (
+            <CircularProgress
+              sx={{
+                position: "absolute",
+              }}
+            />
+          )}
           SUBMIT YOUR FEE ONLINE
         </Button>
+
         <Button
           sx={{ marginTop: "1rem", height: "3rem" }}
           variant="contained"

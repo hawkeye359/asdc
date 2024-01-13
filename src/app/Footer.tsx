@@ -53,6 +53,7 @@ export default function Footer({ children }: { children: React.ReactNode }) {
             <Typography variant="body1">Kanpur, Uttar Pradesh</Typography>
             <Typography variant="body1">+91 91150 42219</Typography>
             <Link
+              target="_blank"
               href="https://www.termsandconditionsgenerator.com/live.php?token=F0HQ4NkzmT8i6gBqC4UcKlUFxztVclMg"
               variant="body2"
             >
