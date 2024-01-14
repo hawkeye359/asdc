@@ -248,7 +248,7 @@ function Page() {
             }}
             onChange={(e) => {
               formik.setFieldValue(DATE_OF_BIRTH, e);
-            }}DD
+            }}
           ></DatePicker>
           {isError(DATE_OF_BIRTH) && (
             <FormHelperText sx={{ color: "red" }}>
@@ -323,7 +323,7 @@ function Page() {
           }}
           disabled={submittingOffline || submittingOnline}
         >
-          {submittingOnline && (
+          {submittingOffline && (
             <CircularProgress
               sx={{
                 position: "absolute",
@@ -344,6 +344,7 @@ function Page() {
       motherName={formik.values[MOTHER_NAME]}
       phoneNumber={formik.values[PHONENUMBER]}
       email={formik.values[EMAIL]}
+      //@ts-ignore
       coursename={findCourseFromArray(formik.values[COURSE])}
       paymentMode={paymentId ? "ONLINE" : "OFFLINE"}
       amount={1628}
