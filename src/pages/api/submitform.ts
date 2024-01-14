@@ -40,7 +40,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponseType<SubmitFormResponseType>>
 ) {
-  console.log(req.body);
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
   let error = false;
   const body: submitFormDataType = req.body;
   const internalId = await generateUniqueId();
