@@ -61,13 +61,19 @@ function Page() {
     initialValues: initialValues,
     validationSchema: formSchema,
     onSubmit: async (values, actions) => {
+      if (paymetnModeIsOnline) {
+        setSubmittingOnline(true);
+      } else {
+        setSubmittingOffline(true);
+      }
       setSubmittingOnline(true);
       const res = await submitForm(values);
-      if (!paymetnModeIsOnline) {
-        setPaymentDone(true);
-        return;
-      }
       if (res.success) {
+        if (!paymetnModeIsOnline) {
+          setPaymentDone(true);
+          setInternalId(res.data.internalId);
+          return;
+        }
         setInternalId(res.data.internalId);
         const orderRes = res.data;
         const razorpayConfig = createRazorpayConfig(
@@ -77,7 +83,11 @@ function Page() {
           orderRes.name,
           orderRes.email,
           orderRes.contact,
-          paymentHandler
+          paymentHandler,
+          () => {
+            console.log("modal closed");
+            setSubmittingOnline(false);
+          }
         );
         let rzp1 = new Razorpay(razorpayConfig);
         console.log("razorpay object", rzp1);
@@ -95,7 +105,7 @@ function Page() {
   }
   function getErrorText(name: formFieldsName) {
     const error = formik.errors[name];
-    if (typeof error === "string") {
+    if (typeof error === "string" && isError(name)) {
       return error;
     } else {
       return "";
@@ -135,6 +145,9 @@ function Page() {
             value={formik.getFieldProps(COURSE).value}
             error={isError(COURSE)}
             label="Course"
+            onBlur={(e) => {
+              formik.setFieldTouched(COURSE, true);
+            }}
             onChange={(e) => {
               formik.setFieldValue(COURSE, e.target.value);
             }}
@@ -146,10 +159,12 @@ function Page() {
                 </MenuItem>
               );
             })}
-            {/* <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem> */}
           </Select>
+          {isError(COURSE) && (
+            <FormHelperText sx={{ color: "red" }}>
+              {getErrorText(COURSE)}
+            </FormHelperText>
+          )}
         </FormControl>
         <Box
           sx={{
@@ -212,22 +227,35 @@ function Page() {
           helperText={getErrorText(MOTHER_NAME)}
           {...formik.getFieldProps(MOTHER_NAME)}
         ></TextField>
-        <FormLabel
-          sx={{
-            marginTop: "1rem",
-          }}
-        >
-          Date of birth
-        </FormLabel>
-        <DatePicker
-          value={formik.getFieldProps(DATE_OF_BIRTH)}
-          format="dd-MM-yyyy"
-          label="Date of birth"
-          sx={{ marginTop: "0.5rem" }}
-          onChange={(e) => {
-            formik.setFieldValue(DATE_OF_BIRTH, e);
-          }}
-        ></DatePicker>
+
+        <FormControl>
+          <FormLabel
+            sx={{
+              marginTop: "1rem",
+            }}
+          >
+            Date of birth
+          </FormLabel>
+          <DatePicker
+            format="dd-MM-yyyy"
+            label="Date of birth"
+            sx={{ marginTop: "0.5rem" }}
+            // onClose={() => {
+            //   formik.setFieldTouched(DATE_OF_BIRTH, true);
+            // }}
+            onOpen={() => {
+              formik.setFieldTouched(DATE_OF_BIRTH, true);
+            }}
+            onChange={(e) => {
+              formik.setFieldValue(DATE_OF_BIRTH, e);
+            }}
+          ></DatePicker>
+          {isError(DATE_OF_BIRTH) && (
+            <FormHelperText sx={{ color: "red" }}>
+              {getErrorText(DATE_OF_BIRTH)}
+            </FormHelperText>
+          )}
+        </FormControl>
         <FormLabel
           sx={{
             marginTop: "1rem",
@@ -293,7 +321,15 @@ function Page() {
             setPaymentModeIsOnline(false);
             formik.handleSubmit();
           }}
+          disabled={submittingOffline || submittingOnline}
         >
+          {submittingOnline && (
+            <CircularProgress
+              sx={{
+                position: "absolute",
+              }}
+            />
+          )}
           SUBMIT YOUR FEE OFFLINE
         </Button>
       </form>

@@ -5,6 +5,7 @@ import "css-reset-and-normalize";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import Script from "next/script";
 import Footer from "./Footer";
+import { ThemeProvider } from "@mui/material";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["300", "500", "700"] });
 

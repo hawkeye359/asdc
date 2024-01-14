@@ -32,13 +32,13 @@ export const formSchema = object({
   [PHONENUMBER]: string()
     .matches(/^\+91\s[0-9]{5}\s[0-9]{5}$/, "Mobile number is not valid")
     .required("Mobile number is required"),
-  [FIRST_NAME]: string().required(),
+  [FIRST_NAME]: string().required("first name is required"),
   [LAST_NAME]: string().notRequired(),
-  [DATE_OF_BIRTH]: date().required(),
-  [FATHER_NAME]: string().required(),
-  [MOTHER_NAME]: string().required(),
-  [COURSE]: string().required(),
-  [EMAIL]: string().email("email is invalid").required(),
+  [DATE_OF_BIRTH]: date().required("date of birth is required"),
+  [FATHER_NAME]: string().required("father name is required"),
+  [MOTHER_NAME]: string().required("mother name is required"),
+  [COURSE]: string().required("course is required"),
+  [EMAIL]: string().email("email is invalid").required("email is required"),
 });
 
 export const initialValues = {
@@ -48,6 +48,17 @@ export const initialValues = {
   [DATE_OF_BIRTH]: undefined,
   [FATHER_NAME]: "Mumtaz Ahmad",
   [MOTHER_NAME]: "Tasneem Fatima",
-  [COURSE]: 0,
+  [COURSE]: "",
   [EMAIL]: "mohdhuzaifa359@gmail.com",
 };
+
+// export const initialValues = {
+//   [PHONENUMBER]: "",
+//   [FIRST_NAME]: "",
+//   [LAST_NAME]: "",
+//   [DATE_OF_BIRTH]: undefined,
+//   [FATHER_NAME]: "",
+//   [MOTHER_NAME]: "",
+//   [COURSE]: "",
+//   [EMAIL]: "",
+// };

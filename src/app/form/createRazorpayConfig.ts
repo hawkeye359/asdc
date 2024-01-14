@@ -10,7 +10,8 @@ export function createRazorpayConfig(
   name: string,
   email: string,
   contact: string,
-  handler: (response: RazorpaySuccessResponse) => void
+  handler: (response: RazorpaySuccessResponse) => void,
+  ondismiss: () => void
 ) {
   var options = {
     key: key,
@@ -31,6 +32,9 @@ export function createRazorpayConfig(
     },
     theme: {
       color: "#3399cc",
+    },
+    modal: {
+      ondismiss,
     },
   };
   return options;

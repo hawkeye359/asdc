@@ -138,14 +138,17 @@ export default function pdfDocument(props: {
   return (
     <Box
       sx={{
-        background: "red",
         display: "flex",
         flexDirection: "column",
         width: "100%",
+        justifyContent: "center",
+        alignItem: "center",
       }}
     >
-      {/* <PDFDownloadLink document={<MyDocument />}>Download pdf</PDFDownloadLink> */}
-      <MyDocument {...props} />
+      <PDFDownloadLink document={<MyDocument {...props} />}>
+        Download pdf
+      </PDFDownloadLink>
+      {/* <MyDocument {...props} /> */}
     </Box>
   );
 }

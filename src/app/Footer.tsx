@@ -59,10 +59,6 @@ export default function Footer({ children }: { children: React.ReactNode }) {
             >
               Terms & conditions
             </Link>
-            <Typography variant="body1">
-              My sticky footer can be found here.
-            </Typography>
-
             <Copyright />
           </Container>
         </Box>
