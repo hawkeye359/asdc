@@ -248,7 +248,7 @@ function Page() {
             }}
             onChange={(e) => {
               formik.setFieldValue(DATE_OF_BIRTH, e);
-            }}
+            }}DD
           ></DatePicker>
           {isError(DATE_OF_BIRTH) && (
             <FormHelperText sx={{ color: "red" }}>
