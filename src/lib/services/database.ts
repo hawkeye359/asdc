@@ -4,11 +4,12 @@ export async function generateUniqueId() {
   const lastOrder = await prisma.order.findFirst({
     orderBy: { id: "desc" },
   });
-
+  console.log("lastOrder", lastOrder);
   let lastIdNumber = 0;
   if (lastOrder) {
     const lastId = lastOrder.id; // Assuming the id is a string like "ZHA240100001"
     lastIdNumber = parseInt(lastId.slice(6), 10);
+    console.log(lastId);
   }
 
   const newIdNumber = lastIdNumber + 1;
