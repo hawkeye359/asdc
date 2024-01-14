@@ -142,10 +142,14 @@ export default function pdfDocument(props: {
         flexDirection: "column",
         width: "100%",
         justifyContent: "center",
-        alignItem: "center",
+        alignItems: "center",
+        flexGrow: 1,
       }}
     >
-      <PDFDownloadLink document={<MyDocument {...props} />}>
+      <PDFDownloadLink
+        fileName={`asdc_${props.id}`}
+        document={<MyDocument {...props} />}
+      >
         Download pdf
       </PDFDownloadLink>
       {/* <MyDocument {...props} /> */}

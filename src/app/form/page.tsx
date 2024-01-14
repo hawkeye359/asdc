@@ -40,6 +40,7 @@ import {
   RazorpaySuccessResponse,
   createRazorpayConfig,
 } from "./createRazorpayConfig";
+import { useRouter } from "next/navigation";
 function Page() {
   const [paymentDone, setPaymentDone] = useState<boolean>(false);
   const [paymetnModeIsOnline, setPaymentModeIsOnline] = useState<boolean>(true);
@@ -48,14 +49,15 @@ function Page() {
   const [submittingOnline, setSubmittingOnline] = useState<boolean>(false);
   const [submittingOffline, setSubmittingOffline] = useState<boolean>(false);
   const matches = useMediaQuery("(max-width:600px)");
+  const router = useRouter();
   const paymentHandler = function (response: RazorpaySuccessResponse) {
     console.log("razorpayResponse", response);
     setPaymentId(response.razorpay_payment_id);
     setPaymentDone(true);
     setSubmittingOnline(false);
-    alert(response.razorpay_payment_id);
-    alert(response.razorpay_order_id);
-    alert(response.razorpay_signature);
+    // alert(response.razorpay_payment_id);
+    // alert(response.razorpay_order_id);
+    // alert(response.razorpay_signature);
   };
   const formik = useFormik({
     initialValues: initialValues,
@@ -66,7 +68,6 @@ function Page() {
       } else {
         setSubmittingOffline(true);
       }
-      setSubmittingOnline(true);
       const res = await submitForm(values);
       if (res.success) {
         if (!paymetnModeIsOnline) {
@@ -300,7 +301,11 @@ function Page() {
         <Button
           sx={{ marginTop: "1rem", height: "3rem", position: "relative" }}
           variant="contained"
-          type="submit"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            router.push("/error");
+          }}
           disabled={submittingOffline || submittingOnline}
         >
           {submittingOnline && (

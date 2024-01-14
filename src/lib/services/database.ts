@@ -8,14 +8,15 @@ export async function generateUniqueId() {
   let lastIdNumber = 0;
   if (lastOrder) {
     const lastId = lastOrder.id; // Assuming the id is a string like "ZHA240100001"
-    lastIdNumber = parseInt(lastId.slice(6), 10);
-    console.log(lastId);
+    lastIdNumber = parseInt(lastId.slice(7), 10);
+    console.log("lastIdNo", lastIdNumber);
   }
 
   const newIdNumber = lastIdNumber + 1;
+  console.log(newIdNumber);
   const paddedNumber = String(newIdNumber).padStart(6, "0");
+  console.log(paddedNumber);
   const newId = `ZHA2401${paddedNumber}`;
-
   return newId;
 }
 
