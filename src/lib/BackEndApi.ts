@@ -5,7 +5,7 @@ type APIResponse =
       success: true;
       data: any;
     }
-  | { success: false; data: string };
+  | { success: false; data: any };
 
 export const BackEndApi = {
   sendPostRequest: async (
@@ -33,7 +33,7 @@ export const BackEndApi = {
     } catch (e) {
       return {
         success: false,
-        data: "Could not send post request",
+        data: e,
       };
     }
   },

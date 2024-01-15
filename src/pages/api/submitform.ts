@@ -47,7 +47,7 @@ export default async function handler(
   let error = false;
   const body: submitFormDataType = req.body;
   const internalId = await generateUniqueId();
-  const orderCreationResponse = await createOrder(162800, internalId);
+  const orderCreationResponse = await createOrder(1000, internalId);
   if (orderCreationResponse.success) {
     try {
       const order = await createOrderInDatabase(
@@ -56,8 +56,8 @@ export default async function handler(
           firstName: body[FIRST_NAME],
           lastName: body[LAST_NAME],
           dateOfBirth: body[DATE_OF_BIRTH],
-          fatherName: body[FIRST_NAME],
-          motherName: body[LAST_NAME],
+          fatherName: body[FATHER_NAME],
+          motherName: body[MOTHER_NAME],
           course: body[COURSE],
           email: body[EMAIL],
           orderId: orderCreationResponse.data.id,

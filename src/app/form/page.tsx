@@ -43,6 +43,7 @@ import {
 import { useRouter } from "next/navigation";
 function Page() {
   const [paymentDone, setPaymentDone] = useState<boolean>(false);
+  const [amount, setAmount] = useState<number>();
   const [paymetnModeIsOnline, setPaymentModeIsOnline] = useState<boolean>(true);
   const [paymentId, setPaymentId] = useState<string>("");
   const [internalId, setInternalId] = useState<string>("");
@@ -77,6 +78,7 @@ function Page() {
         }
         setInternalId(res.data.internalId);
         const orderRes = res.data;
+        setAmount(orderRes.amount);
         const razorpayConfig = createRazorpayConfig(
           orderRes.key,
           orderRes.amount,
@@ -306,7 +308,8 @@ function Page() {
             e.preventDefault();
             router.push("/error");
           }}
-          disabled={submittingOffline || submittingOnline}
+          // disabled={submittingOffline || submittingOnline}
+          disabled={true}
         >
           {submittingOnline && (
             <CircularProgress
@@ -352,7 +355,7 @@ function Page() {
       //@ts-ignore
       coursename={findCourseFromArray(formik.values[COURSE])}
       paymentMode={paymentId ? "ONLINE" : "OFFLINE"}
-      amount={1628}
+      amount={amount ? amount : 0}
       paymentId={paymentId}
       id={internalId}
     />

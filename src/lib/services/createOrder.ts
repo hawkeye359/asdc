@@ -24,6 +24,7 @@ export const createOrder = async function (
     amount: amount,
     currency: "INR",
     receipt: `Receipt no. ${internalOrderId}`,
+
     notes: {
       key1: "value3",
       key2: "value2",
@@ -34,6 +35,7 @@ export const createOrder = async function (
     data,
     `Basic ${base64Credentials}`
   );
+  console.log(res);
   if (res.success) {
     const data: OrderCreationResponse = res.data;
     return {

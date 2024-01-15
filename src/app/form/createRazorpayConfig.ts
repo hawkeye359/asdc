@@ -36,6 +36,7 @@ export function createRazorpayConfig(
     modal: {
       ondismiss,
     },
+    payment_capture: 1,
   };
   return options;
 }
