@@ -355,7 +355,7 @@ function Page() {
       //@ts-ignore
       coursename={findCourseFromArray(formik.values[COURSE])}
       paymentMode={paymentId ? "ONLINE" : "OFFLINE"}
-      amount={amount ? amount : 0}
+      amount={paymentId ? (amount ? amount : 0) : 1628}
       paymentId={paymentId}
       id={internalId}
     />
